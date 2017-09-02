@@ -96,3 +96,7 @@ end
 # colors = %{ colors | primary: "blue" }
 # typed updates can't add new keys for the Map.put must be used
 
+# definition of a keyword list.
+# colors = [{ :primary, "red" }, { :secondary, "green" }]
+# colors = [primary: "red", secondary: "blue"]
+
