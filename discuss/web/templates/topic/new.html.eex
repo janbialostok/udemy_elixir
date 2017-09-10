@@ -1,0 +1,14 @@
+<%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
+  <div class="form-group">
+    <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+  </div>
+  <%= submit "Save Topic", class: "btn btn-primary" %>
+<% end %>
+
+<!--
+\<\%\= always designates that there is some elixir code that is being excuted on the template. This works very similary to EJS. If you are adding html close the elixir tag and then reopen after the html is inserted
+
+form_for is a function that creates a form from a given changeset and a path the form should be sent to
+topic_path (model_path where model is the name of model)
+specifies the create path for topic 
+-->
