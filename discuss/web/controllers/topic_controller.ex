@@ -9,13 +9,23 @@ defmodule Discuss.TopicController do
   use Discuss.Web, :controller
   alias Discuss.Topic
 
-  def new(conn, params) do
+  def new(conn, _params) do
     changeset = Topic.changeset(%Topic{}, %{})
     # render accepts a keyword list of arguements that will be passed to the template
     render(conn, "new.html", changeset: changeset)
   end
   # the pattern matching used below is the only way to access keys in a map that are strings instead of atoms
   def create(conn, %{ "topic" => topic }) do
+    # Repo.insert returns a tuple with either :ok or :error status and the posted value or invalid changeset respectively
+    case Repo.insert(Topic.changeset(%Topic{}, topic)) do
+      { :ok, post } -> IO.inspect(post)
+      { :error, invalid } -> 
+        render(conn, "new.html", changeset: invalid)
+    end
+  end
 
+  def index(conn, _params) do
+    topics = Repo.all(Topic)
+    render(conn, "index.html", topics: topics)
   end
 end
