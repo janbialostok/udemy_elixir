@@ -7,6 +7,7 @@ defmodule Discuss.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Discuss.Plugs.SetUser
   end
 
   pipeline :api do
@@ -27,7 +28,8 @@ defmodule Discuss.Router do
 
   scope "/auth", Discuss do
     pipe_through :browser
-
+    # the signout route must preceed the /:provider route here because if not the /signout will match the wildcard signature of /:provider and throw and error
+    get "/signout", AuthController, :signout
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
   end
