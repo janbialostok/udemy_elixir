@@ -8,6 +8,8 @@ defmodule Discuss.TopicController do
   # for this use statement look at the web.ex file basically calls some macro that imports/alias a bunch of modules
   use Discuss.Web, :controller
   alias Discuss.Topic
+  # this defines that this plug should be used in this controller and the when action in [] definition (guard clause) sets specific methods where it should be used
+  plug Discuss.Plugs.RequireAuth when action in [:new, :create, :edit, :update, :delete]
 
   def new(conn, _params) do
     changeset = Topic.changeset(%Topic{}, %{})
@@ -28,7 +30,6 @@ defmodule Discuss.TopicController do
   end
 
   def index(conn, _params) do
-    IO.inspect(conn.assigns)
     topics = Repo.all(Topic)
     render(conn, "index.html", topics: topics)
   end
